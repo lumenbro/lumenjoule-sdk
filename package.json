@@ -1,0 +1,59 @@
+{
+  "name": "joule-sdk",
+  "version": "0.1.0",
+  "description": "Pay for AI inference with JOULE tokens on Stellar — handles x402 payment protocol automatically",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "example": "npx tsx examples/chat.ts"
+  },
+  "keywords": [
+    "joule",
+    "ai",
+    "inference",
+    "llm",
+    "stellar",
+    "soroban",
+    "x402",
+    "micropayments",
+    "agents",
+    "pay-per-query",
+    "compute",
+    "blockchain"
+  ],
+  "author": "LumenBro <hello@lumenbro.com>",
+  "homepage": "https://github.com/lumenbro/joule-sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lumenbro/joule-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lumenbro/joule-sdk/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@stellar/stellar-sdk": "14.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.0"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT"
+}
