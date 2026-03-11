@@ -31,7 +31,7 @@ export class LumenJouleClient {
       /\/$/,
       ""
     );
-    this.network = config.network || "testnet";
+    this.network = config.network || "mainnet";
     this.rpcUrl = config.rpcUrl;
   }
 

@@ -23,7 +23,7 @@ async function main() {
   const client = new LumenJouleClient({
     secretKey: AGENT_SECRET,
     computeUrl: COMPUTE_URL,
-    network: "testnet",
+    network: "mainnet",
   });
 
   console.log(`Agent:   ${client.publicKey}`);
@@ -54,12 +54,13 @@ async function main() {
   console.log("--- Payment ---");
   console.log(`TX:     ${response._payment.transaction}`);
   console.log(`Payer:  ${response._payment.payer}`);
-  console.log(`Cost:   ${response._payment.ljoulesPaid}`);
+  console.log(`Asset:  ${response._payment.asset}`);
+  console.log(`Cost:   ${response._payment.amountPaid}`);
   console.log(`Network: ${response._payment.network}`);
 
   if (response._payment.transaction) {
     console.log(
-      `\nExplorer: https://stellar.expert/explorer/testnet/tx/${response._payment.transaction}`
+      `\nExplorer: https://stellar.expert/explorer/public/tx/${response._payment.transaction}`
     );
   }
 

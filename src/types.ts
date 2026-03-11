@@ -7,7 +7,7 @@ export interface LumenJouleClientConfig {
   computeUrl?: string;
   /** Soroban RPC URL (default: https://soroban-testnet.stellar.org) */
   rpcUrl?: string;
-  /** Stellar network (default: testnet) */
+  /** Stellar network (default: mainnet) */
   network?: "testnet" | "mainnet";
 }
 
@@ -52,7 +52,9 @@ export interface ChatResponse {
     transaction: string;
     network: string;
     payer: string;
-    ljoulesPaid: string;
+    asset: string;
+    amountPaid: string;
+    joulesPaid?: string;
   };
 }
 
