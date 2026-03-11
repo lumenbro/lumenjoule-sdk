@@ -20,7 +20,7 @@ const NETWORK_PASSPHRASES: Record<string, string> = {
 };
 
 /**
- * Build, simulate, and sign a Soroban transfer invocation.
+ * Build, simulate, and sign a Soroban transfer invocation for LumenJoule payment.
  * Returns a PaymentPayload ready to be base64-encoded as an X-Payment header.
  */
 export async function buildSignedPayment(

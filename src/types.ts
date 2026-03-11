@@ -1,6 +1,6 @@
 // ─── SDK Configuration ───────────────────────────────────────────
 
-export interface JouleClientConfig {
+export interface LumenJouleClientConfig {
   /** Agent's Stellar secret key (starts with S...) */
   secretKey: string;
   /** Compute server URL (default: https://compute.lumenbro.com) */
@@ -10,6 +10,9 @@ export interface JouleClientConfig {
   /** Stellar network (default: testnet) */
   network?: "testnet" | "mainnet";
 }
+
+/** @deprecated Use LumenJouleClientConfig instead */
+export type JouleClientConfig = LumenJouleClientConfig;
 
 // ─── Chat Types (OpenAI-compatible) ─────────────────────────────
 
@@ -49,7 +52,7 @@ export interface ChatResponse {
     transaction: string;
     network: string;
     payer: string;
-    joulesPaid: string;
+    ljoulesPaid: string;
   };
 }
 

@@ -1,5 +1,5 @@
 /**
- * Example: Agent uses JOULE SDK to pay for AI inference.
+ * Example: Agent uses LumenJoule SDK to pay for AI inference.
  *
  * Usage:
  *   AGENT_SECRET=SXXX... npx tsx examples/chat.ts [compute-url]
@@ -7,7 +7,7 @@
  * Defaults to https://compute.lumenbro.com
  */
 
-import { JouleClient } from "../src";
+import { LumenJouleClient } from "../src";
 
 const AGENT_SECRET = process.env.AGENT_SECRET;
 if (!AGENT_SECRET) {
@@ -18,9 +18,9 @@ if (!AGENT_SECRET) {
 const COMPUTE_URL = process.argv[2] || "https://compute.lumenbro.com";
 
 async function main() {
-  console.log("=== JOULE SDK Chat Example ===\n");
+  console.log("=== LumenJoule SDK Chat Example ===\n");
 
-  const client = new JouleClient({
+  const client = new LumenJouleClient({
     secretKey: AGENT_SECRET,
     computeUrl: COMPUTE_URL,
     network: "testnet",
@@ -37,8 +37,8 @@ async function main() {
   }
   console.log();
 
-  // Make an inference request (automatically pays JOULE)
-  console.log("2. Sending chat request (auto-pays JOULE)...\n");
+  // Make an inference request (automatically pays LumenJoule)
+  console.log("2. Sending chat request (auto-pays LumenJoule)...\n");
   const response = await client.chat({
     model: "meta-llama/Llama-3.3-70B-Instruct",
     messages: [
@@ -54,7 +54,7 @@ async function main() {
   console.log("--- Payment ---");
   console.log(`TX:     ${response._payment.transaction}`);
   console.log(`Payer:  ${response._payment.payer}`);
-  console.log(`Cost:   ${response._payment.joulesPaid}`);
+  console.log(`Cost:   ${response._payment.ljoulesPaid}`);
   console.log(`Network: ${response._payment.network}`);
 
   if (response._payment.transaction) {

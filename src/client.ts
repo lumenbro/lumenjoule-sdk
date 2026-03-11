@@ -1,7 +1,7 @@
 import { Keypair } from "@stellar/stellar-sdk";
 import { buildSignedPayment } from "./wallet";
 import type {
-  JouleClientConfig,
+  LumenJouleClientConfig,
   ChatRequest,
   ChatResponse,
   PaymentRequirements,
@@ -9,13 +9,23 @@ import type {
 
 const DEFAULT_COMPUTE_URL = "https://compute.lumenbro.com";
 
-export class JouleClient {
+/**
+ * LumenJoule SDK client — pay for AI inference with LumenJoule tokens on Stellar.
+ *
+ * Handles the x402 payment protocol automatically:
+ * 1. POST to compute server (expect 402)
+ * 2. Extract payment requirements
+ * 3. Build + sign Soroban transfer
+ * 4. Retry with X-Payment header
+ * 5. Return inference response + payment metadata
+ */
+export class LumenJouleClient {
   private keypair: Keypair;
   private computeUrl: string;
   private network: string;
   private rpcUrl?: string;
 
-  constructor(config: JouleClientConfig) {
+  constructor(config: LumenJouleClientConfig) {
     this.keypair = Keypair.fromSecret(config.secretKey);
     this.computeUrl = (config.computeUrl || DEFAULT_COMPUTE_URL).replace(
       /\/$/,
@@ -66,12 +76,21 @@ export class JouleClient {
     }
 
     // Step 2: Extract payment requirements from 402 response
-    const errorBody: any = await initialResponse.json();
-    const requirements: PaymentRequirements = errorBody.paymentRequirements;
+    // Prefer X-Payment header (base64 JSON), fall back to body.paymentRequirements
+    const xPaymentHeader = initialResponse.headers.get("X-Payment");
+    let requirements: PaymentRequirements;
+    if (xPaymentHeader) {
+      requirements = JSON.parse(
+        Buffer.from(xPaymentHeader, "base64").toString("utf-8")
+      );
+    } else {
+      const errorBody: any = await initialResponse.json();
+      requirements = errorBody.paymentRequirements;
+    }
 
     if (!requirements) {
       throw new Error(
-        "402 response missing paymentRequirements — is this an x402-enabled endpoint?"
+        "402 response missing payment requirements — is this an x402-enabled endpoint?"
       );
     }
 
@@ -111,7 +130,7 @@ export class JouleClient {
   }
 
   /**
-   * Get available models and their JOULE pricing.
+   * Get available models and their LumenJoule pricing.
    */
   async models(): Promise<any> {
     const response = await fetch(`${this.computeUrl}/api/models`);
@@ -121,3 +140,6 @@ export class JouleClient {
     return response.json();
   }
 }
+
+/** @deprecated Use LumenJouleClient instead */
+export { LumenJouleClient as JouleClient };
