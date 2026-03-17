@@ -58,7 +58,7 @@ export interface ChatResponse {
   };
 }
 
-// ─── x402 Payment Types ─────────────────────────────────────────
+// ─── x402 Payment Types (v1) ────────────────────────────────────
 
 export interface PaymentRequirements {
   scheme: string;
@@ -81,5 +81,50 @@ export interface PaymentPayload {
     amount: string;
     destination: string;
     asset: string;
+  };
+}
+
+// ─── x402 Payment Types (v2) ────────────────────────────────────
+
+export interface PaymentRequirementsV2 {
+  scheme: string;
+  network: string;
+  amount: string;
+  payTo: string;
+  maxTimeoutSeconds: number;
+  asset: string;
+  extra?: Record<string, unknown>;
+}
+
+export interface PaymentPayloadV2 {
+  x402Version: 2;
+  accepted: PaymentRequirementsV2;
+  payload: {
+    transaction: string; // unsigned TX envelope XDR (base64)
+  };
+}
+
+// ─── Unified helpers ────────────────────────────────────────────
+
+/** Normalize v1 or v2 requirements into a common shape for payment building. */
+export interface NormalizedRequirements {
+  scheme: string;
+  network: string;
+  amount: string;
+  payTo: string;
+  maxTimeoutSeconds: number;
+  asset: string;
+}
+
+export function normalizeRequirements(
+  req: PaymentRequirements | PaymentRequirementsV2
+): NormalizedRequirements {
+  return {
+    scheme: req.scheme,
+    network: req.network,
+    amount: "maxAmountRequired" in req ? req.maxAmountRequired : req.amount,
+    payTo: req.payTo,
+    maxTimeoutSeconds: req.maxTimeoutSeconds,
+    asset: req.asset,
   };
 }
