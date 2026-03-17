@@ -1,7 +1,7 @@
 {
   "name": "lumenjoule-sdk",
-  "version": "1.1.0",
-  "description": "Pay for AI inference with LumenJoule tokens on Stellar — handles x402 payment protocol automatically",
+  "version": "1.2.1",
+  "description": "x402 agent wallet SDK for Stellar — smart accounts with pluggable signers (Ed25519, P-256 Secure Enclave) and on-chain spend policies",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -13,22 +13,24 @@
   },
   "scripts": {
     "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "prepublishOnly": "npm run build",
     "example": "npx tsx examples/chat.ts"
   },
   "keywords": [
-    "lumenjoule",
-    "ai",
-    "inference",
-    "llm",
+    "x402",
     "stellar",
     "soroban",
-    "x402",
+    "smart-wallet",
+    "agent-wallet",
+    "ai-agents",
+    "spend-policy",
+    "secp256r1",
+    "passkeys",
+    "secure-enclave",
     "micropayments",
-    "agents",
-    "pay-per-query",
-    "compute",
-    "blockchain"
+    "lumenjoule"
   ],
   "author": "LumenBro <hello@lumenbro.com>",
   "homepage": "https://github.com/lumenbro/lumenjoule-sdk#readme",
@@ -48,7 +50,8 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "tsx": "^4.21.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitest": "^4.1.0"
   },
   "files": [
     "dist/",
